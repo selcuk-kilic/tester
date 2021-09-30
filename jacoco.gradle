@@ -1,0 +1,125 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDir = file("$project.rootDir/build/covReportDir")
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+    // see related issue https://github.com/gradle/gradle/issues/5184#issuecomment-457865951
+}
+
+project.afterEvaluate {
+
+    (android.hasProperty('applicationVariants')
+            ? android.'applicationVariants'
+            : android.'libraryVariants')
+            .all { variant ->
+                def variantName = variant.name
+                def unitTestTask = "test${variantName.capitalize()}UnitTest"
+                def androidTestCoverageTask = "create${variantName.capitalize()}CoverageReport"
+
+                tasks.create(name: "${variantName}SLKCoverage", type: JacocoReport, dependsOn: [
+                        "$unitTestTask",
+                        //"$androidTestCoverageTask" ,
+                        ":second:testDebugUnitTest"
+                ]) {
+                    group = "Reporting"
+                    description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build"
+
+                    reports {
+                        html.enabled = true
+                        xml.enabled = true
+                        csv.enabled = true
+                    }
+
+                    def excludes = [
+                            // data binding
+                            'android/databinding/**/*.class',
+                            '**/android/databinding/*Binding.class',
+                            '**/android/databinding/*',
+                            '**/androidx/databinding/*',
+                            '**/BR.*',
+                            // android
+                            '**/R.class',
+                            '**/R$*.class',
+                            '**/BuildConfig.*',
+                            '**/Manifest*.*',
+                            '**/*Test*.*',
+                            'android/**/*.*',
+                            // butterKnife
+                            '**/*$ViewInjector*.*',
+                            '**/*$ViewBinder*.*',
+                            // dagger
+                            '**/*_MembersInjector.class',
+                            '**/Dagger*Component.class',
+                            '**/Dagger*Component$Builder.class',
+                            '**/*Module_*Factory.class',
+                            '**/di/module/*',
+                            '**/*_Factory*.*',
+                            '**/*Module*.*',
+                            '**/*Dagger*.*',
+                            '**/*Hilt*.*',
+                            // kotlin
+                            '**/*MapperImpl*.*',
+                            '**/*$ViewInjector*.*',
+                            '**/*$ViewBinder*.*',
+                            '**/BuildConfig.*',
+                            '**/*Component*.*',
+                            '**/*BR*.*',
+                            '**/Manifest*.*',
+                            '**/*$Lambda$*.*',
+                            '**/*Companion*.*',
+                            '**/*Module*.*',
+                            '**/*Dagger*.*',
+                            '**/*Hilt*.*',
+                            '**/*MembersInjector*.*',
+                            '**/*_MembersInjector.class',
+                            '**/*_Factory*.*',
+                            '**/*_Provide*Factory*.*',
+                            '**/*Extensions*.*',
+                            // sealed and data classes
+                            '**/*$Result.*',
+                            '**/*$Result$*.*'
+                    ]
+
+                    classDirectories.setFrom(files([
+                            fileTree(dir: variant.javaCompileProvider.get().destinationDir, excludes: excludes), //java  classes
+                            fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes),
+                            fileTree(dir: "$project.rootDir/second/build/tmp/kotlin-classes/debug", excludes: excludes),
+                    ]))
+
+                    def coverageSourceDirs = [
+                            "$project.rootDir/app/src/main/java",
+                            "$project.projectDir/src/${variantName}/java",
+                            "$project.rootDir/second/src/main/java"
+                    ]
+                    additionalSourceDirs.setFrom(files(coverageSourceDirs))
+                    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+                    /*def variantSourceSets = variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
+                    sourceDirectories.setFrom(project.files(variantSourceSets))*/
+
+                    def dataFies = fileTree(dir: "$project.rootDir",includes: ["**/*.ec", "**/${unitTestTask}.exec"])
+                    dataFies.each{
+                        println it
+                    }
+                    executionData(dataFies)
+
+
+
+                    //def androidTestsData = fileTree(dir: "${buildDir}/outputs/code_coverage/${variantName}AndroidTest/connected/", includes: ["**/*.ec"])
+                    /*executionData(files([
+                            "$project.buildDir/outputs/unit_test_code_coverage/${variantName}UnitTest/${unitTestTask}.exec",
+                            "$project.rootDir/second/build/outputs/unit_test_code_coverage/${variantName}UnitTest/${unitTestTask}.exec",
+                            androidTestsData
+                    ]))*/
+                }
+
+            }
+
+
+}
+
