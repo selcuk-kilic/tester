@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply from: "$project.rootDir/jacoco.gradle"
+
 android {
     compileSdk 30
 
