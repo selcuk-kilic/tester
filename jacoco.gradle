@@ -24,7 +24,7 @@ project.afterEvaluate {
                 tasks.create(name: "${variantName}SLKCoverage", type: JacocoReport, dependsOn: [
                         "$unitTestTask",
                         //"$androidTestCoverageTask" ,
-                        ":second:testDebugUnitTest"
+                        //":second:testDebugUnitTest"
                 ]) {
                     group = "Reporting"
                     description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build"
@@ -88,13 +88,13 @@ project.afterEvaluate {
                     classDirectories.setFrom(files([
                             fileTree(dir: variant.javaCompileProvider.get().destinationDir, excludes: excludes), //java  classes
                             fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes),
-                            fileTree(dir: "$project.rootDir/second/build/tmp/kotlin-classes/debug", excludes: excludes),
+                            //fileTree(dir: "$project.rootDir/second/build/tmp/kotlin-classes/debug", excludes: excludes),
                     ]))
 
                     def coverageSourceDirs = [
                             "$project.rootDir/app/src/main/java",
                             "$project.projectDir/src/${variantName}/java",
-                            "$project.rootDir/second/src/main/java"
+                            //"$project.rootDir/second/src/main/java"
                     ]
                     additionalSourceDirs.setFrom(files(coverageSourceDirs))
                     sourceDirectories.setFrom(files(coverageSourceDirs))
