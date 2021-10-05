@@ -2,7 +2,7 @@ apply plugin: 'jacoco'
 
 jacoco {
     toolVersion = "0.8.7"
-    reportsDir = file("$project.rootDir/build/covReportDir")
+    reportsDir = file("$buildDir/covReportDir")
 }
 
 tasks.withType(Test) {
@@ -24,7 +24,6 @@ project.afterEvaluate {
                 tasks.create(name: "${variantName}SLKCoverage", type: JacocoReport, dependsOn: [
                         "$unitTestTask",
                         //"$androidTestCoverageTask" ,
-                        //":second:testDebugUnitTest"
                 ]) {
                     group = "Reporting"
                     description = "Generate Jacoco coverage reports for the ${variantName.capitalize()} build"
@@ -39,6 +38,7 @@ project.afterEvaluate {
                             // data binding
                             'android/databinding/**/*.class',
                             '**/android/databinding/*Binding.class',
+                            '**/databinding/*Binding.java',
                             '**/android/databinding/*',
                             '**/androidx/databinding/*',
                             '**/BR.*',
@@ -86,15 +86,13 @@ project.afterEvaluate {
                     ]
 
                     classDirectories.setFrom(files([
-                            fileTree(dir: variant.javaCompileProvider.get().destinationDir, excludes: excludes), //java  classes
+                            //fileTree(dir: variant.javaCompileProvider.get().destinationDir, excludes: excludes), //java  classes
                             fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes),
-                            //fileTree(dir: "$project.rootDir/second/build/tmp/kotlin-classes/debug", excludes: excludes),
                     ]))
 
                     def coverageSourceDirs = [
-                            "$project.rootDir/app/src/main/java",
+                            "$project.projectDir/app/src/main/java",
                             "$project.projectDir/src/${variantName}/java",
-                            //"$project.rootDir/second/src/main/java"
                     ]
                     additionalSourceDirs.setFrom(files(coverageSourceDirs))
                     sourceDirectories.setFrom(files(coverageSourceDirs))
@@ -102,7 +100,7 @@ project.afterEvaluate {
                     /*def variantSourceSets = variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
                     sourceDirectories.setFrom(project.files(variantSourceSets))*/
 
-                    def dataFies = fileTree(dir: "$project.rootDir",includes: ["**/*.ec", "**/${unitTestTask}.exec"])
+                    def dataFies = fileTree(dir: "$buildDir",includes: ["**/*.ec", "**/${unitTestTask}.exec"])
                     dataFies.each{
                         println it
                     }
