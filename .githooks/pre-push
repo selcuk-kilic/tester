@@ -1,6 +1,8 @@
 #!/bin/sh
 #
 
+cov_warning=0
+
 evalute_module_csv() {
 	INPUT=$1
 
@@ -16,11 +18,16 @@ evalute_module_csv() {
 		    echo "There is no test run for $class in $package"
 		else
 			line_total=$(($line_covered + $line_missed))
-		    echo "$line_covered out of $line_total lines are tested at $class in $package"
+			cov_perc=$(($line_covered*100/$line_total))
+			echo "$line_covered out of $line_total lines (coverage: $cov_perc) are tested at $class in $package"
+
+			test $cov_perc -lt 60 && ((cov_warning=1))
 		fi
 	done < $INPUT
 }
 
+rm -rf ./app/build/covReportDir
+rm -rf ./second/build/covReportDir
 
 if ./gradlew debugSLKCoverage  ;then
 	echo ""
@@ -33,6 +40,8 @@ fi
 
 evalute_module_csv ./app/build/covReportDir/debugSLKCoverage/debugSLKCoverage.csv
 evalute_module_csv ./second/build/covReportDir/debugSLKCoverage/debugSLKCoverage.csv
+echo ""
+echo ""
 
-echo ""
-echo ""
+test $cov_warning -gt 0 && echo "Please improve tests with coverage less than 60" && exit 1
+
