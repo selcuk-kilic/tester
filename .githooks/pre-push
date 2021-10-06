@@ -43,5 +43,6 @@ evalute_module_csv ./second/build/covReportDir/debugSLKCoverage/debugSLKCoverage
 echo ""
 echo ""
 
-test $cov_warning -gt 0 && echo "Please improve tests with coverage less than 60" & exit 
+test $cov_warning -gt 0 && echo "Please improve tests with coverage less than 60" & exit 1
+
 
