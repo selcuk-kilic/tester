@@ -22,5 +22,14 @@ class SecondVerifierTestdd {
         assert(!verifier.verify("s", ""))
     }
 
+    @Test
+    fun `check no dot in email return fslse`() {
+        assert(!verifier.verify("@", "1"))
+    }
+
+    @Test
+    fun `check corret return true`() {
+        assert(verifier.verify("@.", "1"))
+    }
 
 }

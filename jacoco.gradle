@@ -97,9 +97,6 @@ project.afterEvaluate {
                     additionalSourceDirs.setFrom(files(coverageSourceDirs))
                     sourceDirectories.setFrom(files(coverageSourceDirs))
 
-                    /*def variantSourceSets = variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
-                    sourceDirectories.setFrom(project.files(variantSourceSets))*/
-
                     def dataFies = fileTree(dir: "$buildDir",includes: ["**/*.ec", "**/${unitTestTask}.exec"])
                     dataFies.each{
                         println it
