@@ -1,15 +1,16 @@
-package com.example.testtrials
+package com.example.second
 
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class LoginVerifierTest{
+class SecondVerifierTest{
 
-    lateinit var verifier: LoginVerifier
+    lateinit var verifier: SecondVerifier  
 
     @Before
     fun setup(){
-        verifier = LoginVerifier()
+        verifier = SecondVerifier()
     }
 
     @Test
@@ -26,4 +27,5 @@ class LoginVerifierTest{
     fun `check no dot in email return fslse`() {
         assert(!verifier.verify("@", "1"))
     }
+
 }

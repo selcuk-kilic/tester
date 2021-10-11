@@ -3,13 +3,13 @@ package com.example.testtrials
 import org.junit.Before
 import org.junit.Test
 
-class LoginVerifierTest{
+class FourthVerifierTest{
 
-    lateinit var verifier: LoginVerifier
+    lateinit var verifier: FourthVerifier
 
     @Before
     fun setup(){
-        verifier = LoginVerifier()
+        verifier = FourthVerifier()
     }
 
     @Test
