@@ -39,7 +39,6 @@ rm -rf ./app/build/covReportDir
 rm -rf ./second/build/covReportDir
 
 if ./gradlew debugSLKCoverage  ;then
-	echo ""
 else
 	echo ""
 	echo "tests not passed. You are not allowed to push this branch"
@@ -58,15 +57,6 @@ added_files=$(git diff --name-only --diff-filter=A origin/$current_branch)
 deleted_files=$(git diff --name-only --diff-filter=D origin/$current_branch)
 modified_files=$(git diff --name-only --diff-filter=M origin/$current_branch)
 script_return=0
-
-echo -e $tests_with_low_cov
-echo -e $no_test_file
-echo added_files
-echo $added_files
-echo deleted_files
-echo $deleted_files
-echo modified_files
-echo $modified_files
 
 echo -e $tests_with_low_cov | while IFS= read -r class
 do
