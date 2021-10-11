@@ -38,8 +38,7 @@ evalute_module_csv() {
 rm -rf ./app/build/covReportDir
 rm -rf ./second/build/covReportDir
 
-if ./gradlew debugSLKCoverage  ;then
-else
+if ! ./gradlew debugSLKCoverage  ;then
 	echo ""
 	echo "tests not passed. You are not allowed to push this branch"
 	exit 1
