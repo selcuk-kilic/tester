@@ -6,7 +6,8 @@ import org.junit.Test
 
 class SecondVerifierTest{
 
-    lateinit var verifier: SecondVerifier  
+    lateinit var verifier: SecondVerifier
+
 
     @Before
     fun setup(){
