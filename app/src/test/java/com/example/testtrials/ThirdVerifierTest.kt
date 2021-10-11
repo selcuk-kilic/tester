@@ -1,20 +1,20 @@
-package com.example.second
+package com.example.testtrials
 
 import org.junit.Before
 import org.junit.Test
 
-class SecondVerifierTestdd {
+class ThirdVerifierTest{
 
-    lateinit var verifier: SecondVerifier
+    lateinit var verifier: ThirdVerifier
 
     @Before
     fun setup(){
-        verifier = SecondVerifier()
+        verifier = ThirdVerifier()
     }
 
     @Test
     fun `check empty email return fslse`() {
-     //   assert(!verifier.verify("", "1"))
+        assert(!verifier.verify("", "1"))
     }
 
     @Test
@@ -26,10 +26,4 @@ class SecondVerifierTestdd {
     fun `check no dot in email return fslse`() {
         assert(!verifier.verify("@", "1"))
     }
-
-    @Test
-    fun `check corret return true`() {
-        assert(verifier.verify("@.", "1"))
-    }
-
 }
