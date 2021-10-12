@@ -61,7 +61,7 @@ echo -e $tests_with_low_cov | while IFS= read -r class
 do
   if [[ $class != "" ]]  ;then
 	  if [[ $added_files =  *$class* ]] || [[ $modified_files = *$class* ]]  ;then
-	  	echo -e "\e[31mPlease improve coverage of $class to be more than $COVERAGE_THRESHOLD\e[0m"
+	  	echo -e "\e[31mPlease improve line coverage of $class to be more than $COVERAGE_THRESHOLD%\e[0m"
 	  	script_return=1 
 	  fi
   fi
@@ -70,7 +70,7 @@ done
 echo -e $no_test_file | while IFS= read -r class  ;do
 	if [[ $class != "" ]]  ;then
 		if [[ $added_files = *$class* ]] || [[ $deleted_files = *$class* ]]  ;then
-			echo -e "\e[31mYou should add unit test for $class with a coverage be more than $COVERAGE_THRESHOLD\e[0m"
+			echo -e "\e[31mYou should add unit test for $class with a line coverage be more than $COVERAGE_THRESHOLD%\e[0m"
 			script_return=1
 		fi
 	fi
