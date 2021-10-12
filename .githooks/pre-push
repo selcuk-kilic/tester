@@ -16,7 +16,7 @@ evalute_module_csv() {
 		slash=/
 		package=${package//./$slash}
 
-		[[ "${class}" =~ [^a-zA-Z] ]] && continue
+		[[ "${class}" =~ [^a-zA-Z0-9] ]] && continue
 
 		if [[ $line_covered -eq 0 ]]
 		then
