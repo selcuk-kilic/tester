@@ -65,9 +65,11 @@ do
 	  	script_return=1 
 	  	echo $script_return
 	  fi
+	  echo $script_return
   fi
+  echo $script_return
 done
-
+echo $script_return
 echo -e $no_test_file | while IFS= read -r class  ;do
 	if [[ $class != "" ]]  ;then
 		if [[ $added_files = *$class* ]] || [[ $deleted_files = *$class* ]]  ;then
