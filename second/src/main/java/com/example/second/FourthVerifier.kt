@@ -1,6 +1,6 @@
-package com.example.testtrials
+package com.example.second
 
-class LoginVerifier {
+class FourthVerifier {
 
     fun verify(email: String, password: String): Boolean{
         if(email.isBlank()){
@@ -11,17 +11,6 @@ class LoginVerifier {
         }
 
         if(email.contains("@")){
-            if (email.contains(".")){
-                return true
-            }
-        }
-
-        if(email.contains("w")){
-            if (email.contains(".")){
-                return true
-            }
-        }
-        if(email.contains("b")){
             if (email.contains(".")){
                 return true
             }
