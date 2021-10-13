@@ -52,9 +52,9 @@ evalute_module_csv ./second/build/covReportDir/debugSLKCoverage/debugSLKCoverage
 echo ""
 
 current_branch=$(git symbolic-ref --short HEAD)
-added_files=$(git diff --name-only --diff-filter=A origin/$current_branch)
-deleted_files=$(git diff --name-only --diff-filter=D origin/$current_branch)
-modified_files=$(git diff --name-only --diff-filter=M origin/$current_branch)
+added_files=$(git diff -M99 --name-only --diff-filter=A origin/$current_branch)
+deleted_files=$(git diff -M99 --name-only --diff-filter=D origin/$current_branch)
+modified_files=$(git diff -M99 --name-only --diff-filter=M origin/$current_branch)
 script_return=0
 
 while IFS= read -r class
