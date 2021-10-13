@@ -64,10 +64,13 @@ do
 	  	echo -e "\e[31mPlease improve line coverage of $class to be more than $COVERAGE_THRESHOLD%\e[0m"
 	  	script_return=1 
 	  	echo $script_return
+	  	echo "class $class"
 	  fi
 	  echo $script_return
+	 echo "class $class" 
   fi
   echo $script_return
+  echo "class $class"
 done
 echo $script_return
 echo -e $no_test_file | while IFS= read -r class  ;do
