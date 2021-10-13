@@ -24,6 +24,6 @@ class LoginVerifierTest{
 
     @Test
     fun `check no dot in email return fslse`() {
-  //       assert(!verifier.verify("@", "1"))
+         assert(!verifier.verify("@", "1"))
     }
 }

@@ -57,31 +57,25 @@ deleted_files=$(git diff --name-only --diff-filter=D origin/$current_branch)
 modified_files=$(git diff --name-only --diff-filter=M origin/$current_branch)
 script_return=0
 
-echo -e $tests_with_low_cov | while IFS= read -r class
+while IFS= read -r class
 do
   if [[ $class != "" ]]  ;then
 	  if [[ $added_files =  *$class* ]] || [[ $modified_files = *$class* ]]  ;then
 	  	echo -e "\e[31mPlease improve line coverage of $class to be more than $COVERAGE_THRESHOLD%\e[0m"
 	  	script_return=1 
-	  	echo $script_return
-	  	echo "class $class 1"
 	  fi
-	  echo $script_return
-	 echo "class $class 2" 
   fi
-  echo $script_return
-  echo "class $class 3"
-done
-echo $script_return
-echo -e $no_test_file | while IFS= read -r class  ;do
+done <<<$(echo -e $tests_with_low_cov)
+
+while IFS= read -r class  ;do
 	if [[ $class != "" ]]  ;then
 		if [[ $added_files = *$class* ]] || [[ $deleted_files = *$class* ]]  ;then
 			echo -e "\e[31mYou should add unit test for $class with a line coverage be more than $COVERAGE_THRESHOLD%\e[0m"
 			script_return=1
 		fi
 	fi
-done
+done <<<$(echo -e $no_test_file)
 
-echo -e "\e[0m $script_return"
+echo -e "\e[0m "
 exit $script_return 
 
