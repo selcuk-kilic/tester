@@ -63,6 +63,7 @@ do
 	  if [[ $added_files =  *$class* ]] || [[ $modified_files = *$class* ]]  ;then
 	  	echo -e "\e[31mPlease improve line coverage of $class to be more than $COVERAGE_THRESHOLD%\e[0m"
 	  	script_return=1 
+	  	echo $script_return
 	  fi
   fi
 done
