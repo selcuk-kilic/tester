@@ -67,7 +67,7 @@ do
 	  	echo "class $class 1"
 	  fi
 	  echo $script_return
-	 echo "class $clas 2" 
+	 echo "class $class 2" 
   fi
   echo $script_return
   echo "class $class 3"
