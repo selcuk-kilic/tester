@@ -27,6 +27,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    
+    productFlavors {
+        toshiba {
+        }
+        vestel {
+        }
+        oem {
+        }
+        regal {
+        }
+    }
 
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
