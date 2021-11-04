@@ -28,6 +28,7 @@ android {
         }
     }
     
+    flavorDimensions "default"
     productFlavors {
         toshiba {
         }
