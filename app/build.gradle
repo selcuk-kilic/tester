@@ -38,6 +38,14 @@ android {
         regal {
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def generatedVersionName = "SC ${versionName}-${variant.flavorName}-${variant.buildType.name}.apk"
+            output.setVersionNameOverride(generatedVersionName)
+            output.setVersionCodeOverride(versionCode)
+            outputFileName = generatedVersionName
+        }
+    }
 
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
