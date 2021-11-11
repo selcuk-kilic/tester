@@ -1,12 +1,12 @@
 #!/bin/sh
 #
 
-COVERAGE_THRESHOLD=70
+COVERAGE_THRESHOLD=10
 
 evalute_module_csv() {
 	INPUT=$1
 
-	[ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 1; }
+	[ ! -f $INPUT ] && { echo "$INPUT file not found";  }
 
 	i=1
 	while IFS=, read group package class instruction_missed instruction_covered branch_missed branch_covered line_missed line_covered complexity_missed complexity_covered method_missed method_covered
@@ -38,7 +38,19 @@ evalute_module_csv() {
 rm -rf ./app/build/covReportDir
 rm -rf ./second/build/covReportDir
 
-if ! ./gradlew debugSLKCoverage  ;then
+current_branch=$(git symbolic-ref --short HEAD)
+added_files=$(git diff -M99 --name-only --diff-filter=A origin/$current_branch)
+deleted_files=$(git diff -M99 --name-only --diff-filter=D origin/$current_branch)
+modified_files=$(git diff -M99 --name-only --diff-filter=M origin/$current_branch)
+
+
+if ! ./gradlew test  ;then
+	echo ""
+	echo "tests not passed. You are not allowed to push this branch"
+	exit 1
+fi
+
+if ! ./gradlew vestelDebugSLKCoverage  ;then
 	echo ""
 	echo "tests not passed. You are not allowed to push this branch"
 	exit 1
@@ -47,14 +59,10 @@ fi
 
 tests_with_low_cov=""
 no_test_file=""
-evalute_module_csv ./app/build/covReportDir/debugSLKCoverage/debugSLKCoverage.csv
-evalute_module_csv ./second/build/covReportDir/debugSLKCoverage/debugSLKCoverage.csv
+evalute_module_csv ./app/build/covReportDir/vestelDebugSLKCoverage/vestelDebugSLKCoverage.csv
+evalute_module_csv ./second/build/covReportDir/vestelDebugSLKCoverage/vestelDebugSLKCoverage.csv
 echo ""
 
-current_branch=$(git symbolic-ref --short HEAD)
-added_files=$(git diff -M99 --name-only --diff-filter=A origin/$current_branch)
-deleted_files=$(git diff -M99 --name-only --diff-filter=D origin/$current_branch)
-modified_files=$(git diff -M99 --name-only --diff-filter=M origin/$current_branch)
 script_return=0
 
 while IFS= read -r class

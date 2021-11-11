@@ -3,11 +3,10 @@ package com.example.second
 import org.junit.Assert.*
 import org.junit.Test
 
-class FirstFragmentTest{
+class SecondFragmentTest{
     @Test
     fun aaa(){
-        val f = FirstFragment()
-
-        assert(f.add(2,2)==4)
+        val s = SecondFragment()
+        assert(s.add(1,1)==2)
     }
 }

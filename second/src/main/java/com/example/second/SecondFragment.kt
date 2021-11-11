@@ -13,6 +13,7 @@ import com.example.second.databinding.FragmentSecondBinding
  */
 class SecondFragment : Fragment() {
 
+    fun add(x:Int, y:Int) = x+y
     private var _binding: FragmentSecondBinding? = null
 
     // This property is only valid between onCreateView and
