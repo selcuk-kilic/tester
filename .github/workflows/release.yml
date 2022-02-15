@@ -6,5 +6,24 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
+        
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.5.0
+        with:
+          # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
+          java-version: 1.11
+    
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+      
+      - uses: actions/cache@v2
+        with:
+          path: |
+              ~/.gradle/caches
+              ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+              ${{ runner.os }}-gradle-
+                 
       - name: Build the app
         run: ./gradlew bundle
