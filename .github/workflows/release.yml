@@ -1,6 +1,6 @@
 name: Release
 on: workflow_dispatch
-jobs:
+jobs
   build:
     runs-on: macos-latest
     steps:
@@ -28,3 +28,8 @@ jobs:
                  
       - name: Build the app
         run: ./gradlew bundle
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: app/output/**/*.aab
